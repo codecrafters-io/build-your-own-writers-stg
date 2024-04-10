@@ -26,6 +26,8 @@ stages:
     name: "The first stage"
     difficulty: very_easy
     description_md: |-
+      Hello World!
+
       In this stage, we'll do XYZ
 
       **Example:** ABC
@@ -34,6 +36,7 @@ stages:
 
       ```bash
       $ echo "apple" | ./your_executable.sh -E "a"
+      abcdefg
       ```
 
       You program must ABCD.
