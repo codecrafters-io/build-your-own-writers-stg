@@ -22,7 +22,7 @@ marketing:
   testimonials: []
 
 stages:
-  - slug: "init" 
+  - slug: "init"
     name: "The first stage"
     difficulty: very_easy
     description_md: |-
@@ -34,7 +34,7 @@ stages:
 
       An RDB file is a point-in-time snapshot of a Redis dataset. When RDB persistence is enabled, the Redis server syncs its in-memory state with an RDB file, by doing the following:
 
-      1.  On startup, the Redis server loads the data from the RDB file. 
+      1.  On startup, the Redis server loads the data from the RDB file.
       2.  While running, the Redis server periodically takes new snapshots of the dataset, in order to update the RDB file.
 
       ###  `dir` and `dbfilename`
@@ -76,7 +76,6 @@ stages:
 
       1.  The parameter **name**, encoded as a [RESP Bulk string](https://redis.io/docs/latest/develop/reference/protocol-spec/#bulk-strings)
       2.  The parameter **value**, encoded as a RESP Bulk string
-          
 
       For example, if the value of `dir` is `/tmp/redis-files`, then the expected response to `CONFIG GET dir` is:
 
