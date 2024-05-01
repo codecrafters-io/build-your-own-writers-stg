@@ -57,12 +57,12 @@ stages:
       ### Tests
 
       The tester will execute your program like this:
-      ```
+      ```bash
       $ ./your_server.sh
       ```
 
       The tester will then send an HTTP `GET` request to your server:
-      ```
+      ```bash
       $ curl -i http://localhost:4221
       ```
 
