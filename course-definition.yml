@@ -33,7 +33,7 @@ stages:
       The [`User-Agent`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) header describes the client's user agent.
 
       Your `/user-agent` endpoint must read the `User-Agent` header, and return it in your response body. Here's an example of a `/user-agent` request:
-      ```
+      ```javascript
       // Request line
       GET
       /user-agent
@@ -50,7 +50,7 @@ stages:
       ```
 
       Here is the expected response:
-      ```
+      ```javascript
       // Status line
       HTTP/1.1 200 OK               // Status code must be 200
       \r\n
@@ -67,12 +67,12 @@ stages:
       ### Tests
 
       The tester will execute your program like this:
-      ```
+      ```bash
       $ ./your_server.sh
       ```
 
       The tester will then send a `GET` request to the `/user-agent` endpoint on your server. The request will have a `User-Agent` header.
-      ```
+      ```bash
       $ curl -i --header "User-Agent: foobar/1.2.3" http://localhost:4221/user-agent
       ```
 
@@ -80,7 +80,7 @@ stages:
       -   `Content-Type` header set to `text/plain`.
       -   `Content-Length` header set to the length of the `User-Agent` value. 
       -   Message body set to the `User-Agent` value.
-      ```
+      ```javascript
       HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 12\r\n\r\nfoobar/1.2.3
       ```
 
