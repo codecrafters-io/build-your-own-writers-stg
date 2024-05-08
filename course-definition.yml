@@ -35,17 +35,17 @@ stages:
       Your `/echo/{str}` endpoint must return a `200` response, with the response body set to given string, and with a `Content-Type` and `Content-Length` header.
 
       Here's an example of an `/echo/{str}` request:
-      ```
+      ```javascript
       GET /echo/abc HTTP/1.1\r\nHost: localhost:4221\r\nUser-Agent: curl/7.64.1\r\nAccept: */*\r\n\r\n
       ```
 
       And here's the expected response:
-      ```
+      ```javascript
       HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\nabc
       ```
 
       Here's a breakdown of the response:
-      ```
+      ```javascript
       // Status line
       HTTP/1.1 200 OK
       \r\n                          // CRLF that marks the end of the status line
@@ -64,12 +64,12 @@ stages:
       ### Tests
 
       The tester will execute your program like this:
-      ```
+      ```bash
       $ ./your_server.sh
       ```
 
       The tester will then send a `GET` request to the `/echo/{str}` endpoint on your server, with some random string.
-      ```
+      ```bash
       $ curl -i http://localhost:4221/echo/abc
       ```
 
@@ -77,7 +77,7 @@ stages:
       - `Content-Type` header set to `text/plain`.
       - `Content-Length` header set to the length of the given string.
       - Response body set to the given string.
-      ```
+      ```javascript
       HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\nabc
       ```
 
