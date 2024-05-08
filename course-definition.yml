@@ -23,59 +23,69 @@ marketing:
 
 stages:
   - slug: "init"
-    name: "The first stage"
+    name: "Read header"
     difficulty: very_easy
     description_md: |-
-      In this stage, your server will respond to an HTTP request with a `200` response.
+      In this stage, you'll implement the `/user-agent` endpoint, which reads the `User-Agent` request header and returns it in the response body.
 
-      ### HTTP response
+      ### The `User-Agent` header
 
-      An HTTP response is made up of three parts, each separated by a [CRLF](https://developer.mozilla.org/en-US/docs/Glossary/CRLF) (`\r\n`):
-      1.  Status line.
-      2.  Zero or more headers, each ending with a CRLF.
-      3.  Optional message body.
+      The [`User-Agent`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) header describes the client's user agent.
 
-      In this stage, your server's response will only contain a status line. Here's the response your server must send:
-      ```javascript
-      HTTP/1.1 200 OK\r\n\r\n
+      Your `/user-agent` endpoint must read the `User-Agent` header, and return it in your response body. Here's an example of a `/user-agent` request:
+      ```
+      // Request line
+      GET
+      /user-agent
+      HTTP/1.1
+      \r\n
+
+      // Headers
+      Host: localhost:4221\r\n
+      User-Agent: foobar/1.2.3\r\n  // Read this value
+      Accept: */*\r\n
+      \r\n
+
+      // Request body (empty)
       ```
 
-      Here's a breakdown of the response:
-      ```javascript
+      Here is the expected response:
+      ```
       // Status line
-      HTTP/1.1  // HTTP version
-      200       // Status code
-      OK        // Optional reason phrase
-      \r\n      // CRLF that marks the end of the status line
+      HTTP/1.1 200 OK               // Status code must be 200
+      \r\n
 
-      // Headers (empty)
-      \r\n      // CRLF that marks the end of the headers
+      // Headers
+      Content-Type: text/plain\r\n
+      Content-Length: 12\r\n
+      \r\n
 
-      // Message body (empty)
+      // Response body
+      foobar/1.2.3                  // The value of `User-Agent`
       ```
 
       ### Tests
 
       The tester will execute your program like this:
-      ```bash
+      ```
       $ ./your_server.sh
       ```
 
-      The tester will then send an HTTP `GET` request to your server:
-      ```bash
-      $ curl -i http://localhost:4221
+      The tester will then send a `GET` request to the `/user-agent` endpoint on your server. The request will have a `User-Agent` header.
+      ```
+      $ curl -i --header "User-Agent: foobar/1.2.3" http://localhost:4221/user-agent
       ```
 
-      Your server must respond to the request with the following response:
-      ```javascript
-      HTTP/1.1 200 OK\r\n\r\n
+      Your server must respond with a `200` response that contains the following parts:
+      -   `Content-Type` header set to `text/plain`.
+      -   `Content-Length` header set to the length of the `User-Agent` value. 
+      -   Message body set to the `User-Agent` value.
+      ```
+      HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 12\r\n\r\nfoobar/1.2.3
       ```
 
       ### Notes
-
-      - You can ignore the contents of the request. We'll cover parsing requests in later stages.
-      - For more information about HTTP responses, see the [MDN Web Docs on HTTP responses](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages#http_responses) or the [HTTP/1.1 specification](https://datatracker.ietf.org/doc/html/rfc9112#name-message).
-      - This challenge uses HTTP/1.1.
+      -   Header names are [case-insensitive](https://datatracker.ietf.org/doc/html/rfc9112#name-field-syntax).
 
     marketing_md: |-
       In this stage, we'll do XYZ.
