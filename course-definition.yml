@@ -37,17 +37,17 @@ stages:
       3.  Optional request body.
 
       Here's an example of an HTTP request:
-      ```
+      ```javascript
       GET /index.html HTTP/1.1\r\nHost: localhost:4221\r\nUser-Agent: curl/7.64.1\r\nAccept: */*\r\n\r\n
       ```
 
       Here's a breakdown of the request:
-      ```
+      ```javascript
       // Request line
-      GET          // HTTP method
-      /index.html  // Request target
-      HTTP/1.1     // HTTP version
-      \r\n         // CRLF that marks the end of the request line
+      GET                          // HTTP method
+      /index.html                  // Request target
+      HTTP/1.1                     // HTTP version
+      \r\n                         // CRLF that marks the end of the request line
 
       // Headers
       Host: localhost:4221\r\n     // Header that specifies the server's host and port
@@ -65,29 +65,29 @@ stages:
       ## Tests
 
       The tester will execute your program like this:
-      ```
+      ```bash
       $ ./your_server.sh
       ```
 
       The tester will then send two HTTP requests to your server.
 
       First, the tester will send a `GET` request, with a random string as the path:
-      ```
+      ```bash
       $ curl -i http://localhost:4221/abcdefg
       ```
 
       Your server must respond to this request with a `404` response:
-      ```
+      ```javascript
       HTTP/1.1 404 Not Found\r\n\r\n
       ```
 
       Then, the tester will send a `GET` request, with the path `/`:
-      ```
+      ```bash
       $ curl -i http://localhost:4221
       ```
 
       Your server must respond to this request with a `200` response:
-      ```
+      ```javascript
       HTTP/1.1 200 OK\r\n\r\n
       ```
 
