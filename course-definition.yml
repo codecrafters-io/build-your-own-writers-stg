@@ -22,8 +22,7 @@ marketing:
   testimonials: []
 
 stages:
-  - legacy_slug: "init"
-    slug: "oq4"
+  - slug: "oq4"
     name: "Read header"
     difficulty: very_easy
     description_md: |-
@@ -50,8 +49,7 @@ stages:
     marketing_md: |-
       In this stage, we'll do XYZ.
 
-  - legacy_slug: "second"
-    slug: "ji3"
+  - slug: "ji3"
     name: "The second stage"
     difficulty: very_easy
     description_md: |-
