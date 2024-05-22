@@ -23,7 +23,6 @@ marketing:
 
 stages:
   - slug: "oq4"
-    legacy_slug: "first"
     name: "Read header"
     difficulty: very_easy
     description_md: |-
@@ -51,7 +50,6 @@ stages:
       In this stage, we'll do XYZ.
 
   - slug: "ji3"
-    legacy_slug: "second"
     name: "The second stage"
     difficulty: very_easy
     description_md: |-
