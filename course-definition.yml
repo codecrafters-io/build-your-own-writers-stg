@@ -36,6 +36,7 @@ stages:
 
       The tester will then send two `GET` requests to the `/files/{filename}` endpoint on your server.
 
+      #### First request
       The first request will ask for a file that exists in the files directory:
       ```
       $ echo -n 'Hello, World!' > /tmp/foo
@@ -50,6 +51,7 @@ stages:
       HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: 14\r\n\r\nHello, World!
       ```
 
+      #### Second request
       The second request will ask for a file that doesn't exist in the files directory:
       ```
       $ curl -i http://localhost:4221/files/non_existant_file
