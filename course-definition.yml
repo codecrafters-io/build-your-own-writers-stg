@@ -26,25 +26,38 @@ stages:
     name: "Read header"
     difficulty: very_easy
     description_md: |-
-      In this stage, you'll add support for concurrent connections.
+      In this stage, you'll implement the `/files/{filename}` endpoint, which returns a requested file to the client.
 
       ### Tests
-
-      The tester will execute your program like this:
-      ```bash
-      $ ./your_server.sh
+      The tester will execute your program with a `--directory` flag. The `--directory` flag specifies the directory where the files are stored, as an absolute path.
+      ```
+      $ ./your_server.sh --directory /tmp/
       ```
 
-      Then, the tester will create multiple concurrent TCP connections to your server. (The exact number of connections is determined at random.) After that, the tester will send a single `GET` request through each of the connections.
-      ```bash
-      $ (sleep 3 && printf "GET / HTTP/1.1\r\n\r\n") | nc localhost 4221 &
-      $ (sleep 3 && printf "GET / HTTP/1.1\r\n\r\n") | nc localhost 4221 &
-      $ (sleep 3 && printf "GET / HTTP/1.1\r\n\r\n") | nc localhost 4221 &
+      The tester will then send two `GET` requests to the `/files/{filename}` endpoint on your server.
+
+      The first request will ask for a file that exists in the files directory:
+      ```
+      $ echo -n 'Hello, World!' > /tmp/foo
+      $ curl -i http://localhost:4221/files/foo
       ```
 
-      Your server must respond to each request with the following response:
-      ```javascript
-      HTTP/1.1 200 OK\r\n\r\n
+      Your server must respond with a `200` response that contains the following parts:
+      -   `Content-Type` header set to `application/octet-stream`.
+      -   `Content-Length` header set to the size of the file, in bytes.
+      -   Response body set to the file contents.
+      ```
+      HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: 14\r\n\r\nHello, World!
+      ```
+
+      The second request will ask for a file that doesn't exist in the files directory:
+      ```
+      $ curl -i http://localhost:4221/files/non_existant_file
+      ```
+
+      Your server must respond with a `404` response:
+      ```
+      HTTP/1.1 404 Not Found\r\n\r\n
       ```
     marketing_md: |-
       In this stage, we'll do XYZ.
