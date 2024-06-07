@@ -241,7 +241,7 @@ stages:
 
       - The RDB file provided by `--dir` and `--dbfilename` might not exist. If the file doesn't exist, your program must treat the database as empty.
       - RDB files use both little-endian and big-endian to store numbers. See the [MDN article on endianness](https://developer.mozilla.org/en-US/docs/Glossary/Endianness) to learn more.
-      - To generate an RDB file, start an instance of Redis, then send a `[SAVE](https://redis.io/docs/latest/commands/save/)` [command](https://redis.io/docs/latest/commands/save/).
+      - To generate an RDB file, start an instance of Redis, then send a [`SAVE` command](https://redis.io/docs/latest/commands/save/).
 
     marketing_md: |-
       In this stage, we'll do XYZ.
