@@ -106,12 +106,12 @@ stages:
       Here's a more formal description of how each key-value pair is stored:
 
       1. Optional expire information (one of the following):
-        * Timestamp in seconds:
-          1.  `FD`
-          2.  Expire timestamp in seconds (4-byte unsigned integer)
-        * Timestamp in milliseconds:
-          1.  `FC`
-          2.  Expire timestamp in milliseconds (8-byte unsigned long)
+          * Timestamp in seconds:
+                1.  `FD`
+                2.  Expire timestamp in seconds (4-byte unsigned integer)
+          * Timestamp in milliseconds:
+                1.  `FC`
+                2.  Expire timestamp in milliseconds (8-byte unsigned long)
       2. Value type (1-byte flag)
       3. Key (string encoded)
       4. Value (encoding depends on value type)
