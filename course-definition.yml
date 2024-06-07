@@ -139,7 +139,7 @@ stages:
       0A
       00001010
       ```
-
+      ```
       /* If the first two bits are 0b01:
          The size is the next 14 bits
          (remaining 6 bits in the first byte, combined with the next byte),
