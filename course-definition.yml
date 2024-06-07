@@ -200,7 +200,7 @@ stages:
       <details>
         <summary>Click to expand/collapse</summary>
 
-      The `[KEYS command](https://redis.io/docs/latest/commands/keys/)` returns all the keys that match a given pattern, as a RESP array:
+      The [`KEYS command`](https://redis.io/docs/latest/commands/keys/) returns all the keys that match a given pattern, as a RESP array:
       ```
       $ redis-cli SET foo bar
       OK
