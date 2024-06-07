@@ -148,16 +148,16 @@ stages:
       42 BC
       01000010 10111100
 
-      // If the first two bits are 0b10:
-      // Ignore the remaining 6 bits of the first byte.
-      // The size is the next 4 bytes, in big-endian (read left-to-right).
-      // In this example, the size is 17000:
+      /* If the first two bits are 0b10:
+         Ignore the remaining 6 bits of the first byte.
+         The size is the next 4 bytes, in big-endian (read left-to-right).
+         In this example, the size is 17000: */
       80 00 00 42 68
       10000000 00000000 00000000 01000010 01101000
 
-      // If the first two bits are 0b11:
-      // The remaining 6 bits specify a type of string encoding.
-      // See string encoding section.
+      /* If the first two bits are 0b11:
+         The remaining 6 bits specify a type of string encoding.
+         See string encoding section. */
       ```
 
       #### String encoding
@@ -168,29 +168,29 @@ stages:
 
       Here's an example:
       ```
-      // The 0x0D size specifies that the string is 13 characters long.
-      // The remaining characters spell out "Hello, World!".
+      /* The 0x0D size specifies that the string is 13 characters long.
+         The remaining characters spell out "Hello, World!". */
       0D 48 65 6C 6C 6F 2C 20 57 6F 72 6C 64 21
       ```
 
       For sizes that begin with `0b11`, the remaining 6 bits indicate a type of string format:
       ```
-      // The 0xC0 size indicates the string is an 8-bit integer.
-      // In this example, the string is "123".
+      /* The 0xC0 size indicates the string is an 8-bit integer.
+         In this example, the string is "123". */
       C0 7B
 
-      // The 0xC1 size indicates the string is a 16-bit integer.
-      // The remaining bytes are in little-endian (read right-to-left).
-      // In this example, the string is "12345".
+      /* The 0xC1 size indicates the string is a 16-bit integer.
+         The remaining bytes are in little-endian (read right-to-left).
+         In this example, the string is "12345". */
       C1 39 30
 
-      // The 0xC2 size indicates the string is a 32-bit integer.
-      // The remaining bytes are in little-endian (read right-to-left),
-      // In this example, the string is "1234567".
+      /* The 0xC2 size indicates the string is a 32-bit integer.
+         The remaining bytes are in little-endian (read right-to-left),
+         In this example, the string is "1234567". */
       C2 87 D6 12 00
 
-      // The 0xC3 size indicates that the string is compressed with the LZF algorithm.
-      // You will not encounter LZF-compressed strings in this challenge.
+      /* The 0xC3 size indicates that the string is compressed with the LZF algorithm.
+         You will not encounter LZF-compressed strings in this challenge. */
       C3 ...
       ```
       </details>
