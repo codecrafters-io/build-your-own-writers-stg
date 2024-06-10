@@ -26,67 +26,86 @@ stages:
     name: "Read header"
     difficulty: very_easy
     description_md: |-
-      Welcome to the RDB Persistence Extension! In this extension, you'll add support for reading [RDB files](https://redis.io/docs/management/persistence/) (Redis Database files).
+      Welcome to the HTTP Compression extension! In this extension, you'll add support for [compression](https://en.wikipedia.org/wiki/HTTP_compression) to your HTTP server.
 
-      In this stage, you'll add support for two configuration parameters related to RDB persistence, as well as the [CONFIG GET](https://redis.io/docs/latest/commands/config-get/) command.
+      In this stage, you'll add support for the `Accept-Encoding` and `Content-Encoding` headers.
 
-      ### RDB files
+      ### `Accept-Encoding` and `Content-Encoding`
 
-      An RDB file is a point-in-time snapshot of a Redis dataset. When RDB persistence is enabled, the Redis server syncs its in-memory state with an RDB file, by doing the following:
-
-      1. On startup, the Redis server loads the data from the RDB file.
-      2. While running, the Redis server periodically takes new snapshots of the dataset, in order to update the RDB file.
-
-      ### `dir` and `dbfilename`
-
-      The configuration parameters `dir` and `dbfilename` specify where an RDB file is stored:
-      - `dir` - the path to the directory where the RDB file is stored (example: `/tmp/redis-data`)
-      - `dbfilename` - the name of the RDB file (example: `rdbfile`)
-
-      ### The `CONFIG GET` command
-
-      The [`CONFIG GET`](https://redis.io/docs/latest/commands/config-get/) command returns the values of configuration parameters.
-
-      It takes in one or more configuration parameters and returns a [RESP array](https://redis.io/docs/latest/develop/reference/protocol-spec/#arrays) of key-value pairs:
-
-      ```bash
-      $ redis-cli CONFIG GET dir
-      1) "dir"
-      2) "/tmp/redis-data"
+      An HTTP client uses the `Accept-Encoding` header to specify the compression schemes it supports. In the following example, the client specifies that it supports the `gzip` compression scheme:
+      ```
+      > GET /echo/foo HTTP/1.1
+      > Host: localhost:4221
+      > User-Agent: curl/7.81.0
+      > Accept: */*
+      > Accept-Encoding: gzip  // Client specifies it supports the gzip compression scheme
       ```
 
-      Although `CONFIG GET` can fetch multiple parameters at a time, the tester will only send `CONFIG GET` commands with one parameter at a time.
+      The server then chooses one of the compression schemes listed in `Accept-Encoding` and compresses the response body with it.
+
+      Then, the server sends a response with the compressed body and a `Content-Encoding` header. `Content-Encoding` specifies the compression scheme that was used.
+
+      In the following example, the response body is compressed with `gzip`:
+      ```
+      < HTTP/1.1 200 OK
+      < Content-Encoding: gzip    // Server specifies that the response body is compressed with gzip.
+      < Content-Type: text/plain  // Original media type of the body.
+      < Content-Length: 23        // Size of the compressed body.
+      < ...                       // Compressed body.
+      ```
+
+      If the server doesn't support any of the compression schemes specified by the client, then it will not compress the response body. Instead, it will send a standard response and omit the `Content-Encoding` header.
+
+      For this extension, assume that your server only supports the `gzip` compression scheme.
+
+      Also, you don't need to compress the body in this stage. You'll add support for compression in a later stage.
 
       ### Tests
 
       The tester will execute your program like this:
-
-      ```bash
-      ./spawn_redis_server.sh --dir /tmp/redis-files --dbfilename dump.rdb
+      ```
+      $ ./your_server.sh
       ```
 
-      It'll then send the following commands:
+      The tester will then send two `GET` requests to the `/echo/<str>` endpoint on your server.
 
-      ```bash
-      $ redis-cli CONFIG GET dir
-      $ redis-cli CONFIG GET dbfilename
+      #### First request
+
+      First, the tester will send a request with this header: `Accept-Encoding: gzip`.
+      ```
+      $ curl -v -H "Accept-Encoding: gzip" http://localhost:4221/echo/abc
       ```
 
-      Your server must respond to each `CONFIG GET` command with a RESP array containing two elements:
+      Your server's response must contain this header: `Content-Encoding: gzip`.
+      ```
+      HTTP/1.1 200 OK
+      Content-Type: text/plain
+      Content-Encoding: gzip
+      Content-Length: 3
 
-      1. The parameter **name**, encoded as a [RESP Bulk string](https://redis.io/docs/latest/develop/reference/protocol-spec/#bulk-strings)
-      2. The parameter **value**, encoded as a RESP Bulk string
+      abc
+      ```
 
-      For example, if the value of `dir` is `/tmp/redis-files`, then the expected response to `CONFIG GET dir` is:
+      #### Second request
 
-      ```bash
-      *2\r\n$3\r\ndir\r\n$16\r\n/tmp/redis-files\r\n
+      Next, the tester will send a request with this header: `Accept-Encoding: invalid-encoding`.
+      ```
+      $ curl -v -H "Accept-Encoding: invalid-encoding" http://localhost:4221/echo/abc
+      ```
+
+      Your server's response must not contain a `Content-Encoding` header:
+      ```
+      HTTP/1.1 200 OK
+      Content-Type: text/plain
+      Content-Length: 3
+
+      abc
       ```
 
       ### Notes
 
-      - You don't need to read the RDB file in this stage, you only need to store `dir` and `dbfilename`. Reading from the file will be covered in later stages.
-      - If your repository was created before 5th Oct 2023, it's possible that your `./spawn_redis_server.sh` script is not passing arguments to your program. To fix this, you'll need to edit `./spawn_redis_server.sh`. Check the [update CLI args PR](https://github.com/codecrafters-io/build-your-own-redis/pull/89/files) for details on how to do this.
+      - You'll add support for `Accept-Encoding` headers with multiple compression schemes in a later stage.   
+      - There's another method for HTTP compression that uses the `TE` and `Transfer-Encoding` headers. We won't cover that method in this extension.
     marketing_md: |-
       In this stage, we'll do XYZ.
 
