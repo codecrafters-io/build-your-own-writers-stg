@@ -38,7 +38,7 @@ stages:
       > Host: localhost:4221
       > User-Agent: curl/7.81.0
       > Accept: */*
-      > Accept-Encoding: gzip  // Client specifies it supports the gzip compression scheme
+      > Accept-Encoding: gzip  // Client specifies it supports the gzip compression scheme.
       ```
 
       The server then chooses one of the compression schemes listed in `Accept-Encoding` and compresses the response body with it.
