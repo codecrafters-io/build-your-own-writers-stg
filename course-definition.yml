@@ -58,7 +58,7 @@ stages:
 
       For this extension, assume that your server only supports the `gzip` compression scheme.
 
-      Also, you don't need to compress the body in this stage. You'll add support for compression in a later stage.
+      For this stage, you don't need to compress the body. You'll implement compression in a later stage.
 
       ### Tests
 
@@ -104,7 +104,7 @@ stages:
 
       ### Notes
 
-      - You'll add support for `Accept-Encoding` headers with multiple compression schemes in a later stage.   
+      - You'll add support for `Accept-Encoding` headers with multiple compression schemes in a later stage.
       - There's another method for HTTP compression that uses the `TE` and `Transfer-Encoding` headers. We won't cover that method in this extension.
     marketing_md: |-
       In this stage, we'll do XYZ.
