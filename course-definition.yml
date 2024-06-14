@@ -46,7 +46,7 @@ stages:
       - `Content-Encoding` header set to `gzip`.
       - `Content-Length` header set to the size of the compressed body.
       - Response body set to the `gzip`-compressed `str` parameter.
-          
+
       ```
       HTTP/1.1 200 OK
       Content-Encoding: gzip
