@@ -83,7 +83,7 @@ stages:
       Content-Encoding: gzip
       Content-Length: 3
 
-      abc
+      ...  // Body omitted.
       ```
 
       #### Second request
@@ -99,7 +99,7 @@ stages:
       Content-Type: text/plain
       Content-Length: 3
 
-      abc
+      ...  // Body omitted.
       ```
 
       ### Notes
