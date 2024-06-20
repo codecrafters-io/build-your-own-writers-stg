@@ -36,7 +36,7 @@ stages:
       ```
 
       It outputs metadata about the database file:
-      ```
+      ```yaml
       database page size:  4096
       write format:        1
       read format:         1
