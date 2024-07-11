@@ -1,6 +1,6 @@
 The entry point for your writers-stg implementation is in `cmd/mygrep/main.go`.
 
-Study and uncomment the relevant code: 
+Study and uncomment the relevant code:
 
 ```go
 // Uncomment this to pass the first stage
