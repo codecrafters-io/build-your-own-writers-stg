@@ -34,12 +34,12 @@ stages:
 
       For each table, index, view, or trigger in the database, there's a corresponding row in `sqlite_schema`. The one exception is that there's no row for the `sqlite_schema` table itself.
 
-      In this challenge, you can assume that databases only contain tables—no indexes, views, or triggers. So, each row in `sqlite_schema` represents a table in the database. As a result, you can get the total number of tables in the database by seeing how many rows there are in `sqlite_schema`.
-
       To see what `sqlite_schema` looks like, run this command:
       ```
       $ sqlite3 sample.db "SELECT * FROM sqlite_schema;"
       ```
+
+      In this challenge, you can assume that databases only contain tables—no indexes, views, or triggers. So, each row in `sqlite_schema` represents a table in the database. As a result, you can get the total number of tables in the database by getting the number of rows in `sqlite_schema`.
 
       ### Pages
 
