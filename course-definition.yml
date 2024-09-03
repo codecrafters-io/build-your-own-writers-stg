@@ -93,19 +93,19 @@ stages:
       07     // Size of record header (varint): 7
 
       17     // Serial type for sqlite_schema.type (varint):     23
-            // Size of sqlite_schema.type =                     (23-13)/2 = 5
+             // Size of sqlite_schema.type =                     (23-13)/2 = 5
 
       1b     // Serial type for sqlite_schema.name (varint):     27
-            // Size of sqlite_schema.name =                     (27-13)/2 = 7
+             // Size of sqlite_schema.name =                     (27-13)/2 = 7
 
       1b     // Serial type for sqlite_schema.tbl_name (varint): 27
-            // Size of sqlite_schema.tbl_name =                 (27-13)/2 = 7
+             // Size of sqlite_schema.tbl_name =                 (27-13)/2 = 7
 
       01     // Serial type for sqlite_schema.rootpage (varint): 1
-            // 8-bit twos-complement integer
+             // 8-bit twos-complement integer
 
       81 47  // Serial type for sqlite_schema.sql (varint):      199
-            // Size of sqlite_schema.sql =                      (199-13)/2 = 93
+             // Size of sqlite_schema.sql =                      (199-13)/2 = 93
 
       // Record body
       74 61 62 6c 65        // Value of sqlite_schema.type:     "table"
@@ -143,3 +143,9 @@ stages:
 
     marketing_md: |-
       In this stage, we'll do XYZ.
+
+
+
+
+
+
