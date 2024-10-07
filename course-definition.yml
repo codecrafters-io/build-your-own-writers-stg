@@ -58,7 +58,7 @@ stages:
       3. The broker sends a response that includes the same correlation ID.
       4. The client receives the response and matches the correlation ID to the original request.
 
-      The correlation ID is a 32-bit signed integer. For this stage, your program must respond with a hard coded correlation ID of 7.
+      The correlation ID is a 32-bit signed integer. For this stage, your program must respond with a hard-coded correlation ID of 7.
 
       ### Tests
 
