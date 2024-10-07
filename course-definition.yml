@@ -26,10 +26,39 @@ stages:
     name: "Read header"
     difficulty: very_easy
     description_md: |-
+      In this stage, you'll send a response with a correlation ID.
 
-      In this stage, you'll implement a TCP server that listens on port 9092.
+      ### Response message
 
-      [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) is the underlying protocol that Kafka brokers and clients use to communicate with each other.
+      Kafka brokers communicate with clients through the [Kafka wire protocol](https://kafka.apache.org/protocol.html). The protocol uses a request-response model, where the client sends a request message and the broker replies with a response message.
+
+      A Kafka response message has three parts:
+      1. Message size
+      2. Header
+      3. Body
+
+      For this stage, you can ignore the body and just focus on the message size and header. You'll learn about response bodies in a later stage.
+
+      #### Message size
+
+      The [message size](https://kafka.apache.org/protocol.html#protocol_common) is a 32-bit signed integer. It specifies the size of the header and body.
+
+      For this stage, the tester will only assert that your message size is 4 bytes long—it won't check its value. You'll implement correct message sizes in a later stage.
+
+      #### Header
+
+      Kafka has a few different header versions. The way Kafka determines which header version to use is a bit complicated and is outside the scope of this challenge. For more information, take a look at [KIP-482](https://cwiki.apache.org/confluence/display/KAFKA/KIP-482%3A+The+Kafka+Protocol+should+Support+Optional+Tagged+Fields) and this [Stack Overflow answer](https://stackoverflow.com/a/71853003).
+
+      In this stage, you will use [response header v0](https://kafka.apache.org/protocol.html#protocol_messages) (scroll down).
+
+      It has a single value: a [correlation ID](https://developer.confluent.io/patterns/event/correlation-identifier/). This value lets clients match responses to their original requests. Here's how it works:
+
+      1. The client generates a correlation ID.
+      2. The client sends a request that includes the correlation ID.
+      3. The broker sends a response that includes the same correlation ID.
+      4. The client receives the response and matches the correlation ID to the original request.
+
+      The correlation ID is a 32-bit signed integer. For this stage, your program must respond with a hard coded correlation ID of 7.
 
       ### Tests
 
@@ -38,12 +67,21 @@ stages:
       $ ./your_program.sh
       ```
 
-      It'll then try to connect to your TCP server on port 9092. If the connection succeeds, you'll pass this stage.
+      It'll then connect to your broker on port 9092 and send a request:
+      ```
+      $ echo -n "Placeholder request" | nc -v localhost 9092 | hexdump -C
+      ```
+
+      Your broker must send a response with a correlation ID of 7:
+      ```
+      00 00 00 00  // Message size:   0 (any value works)
+      00 00 00 07  // Correlation ID: 7
+      ```
 
       ### Notes
 
-      - If you already have a Kafka broker running on port 9092 and you run your program, you'll get a "port already in use" error. To fix this, terminate the existing Kafka broker and run your program again.
-      - 9092 is the default port that Kafka uses.
+      - For this stage, you don't need to parse the request. You'll learn about request parsing in a later stage.
+      - All integers are in [big-endian](https://developer.mozilla.org/en-US/docs/Glossary/Endianness) order.
 
     marketing_md: |-
       In this stage, we'll do XYZ.
