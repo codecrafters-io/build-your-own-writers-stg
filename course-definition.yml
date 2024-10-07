@@ -73,7 +73,7 @@ stages:
       ```
 
       Your broker must send a response with a correlation ID of 7:
-      ```
+      ```java
       00 00 00 00  // Message size:   0 (any value works)
       00 00 00 07  // Correlation ID: 7
       ```
