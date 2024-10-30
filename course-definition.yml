@@ -51,7 +51,7 @@ stages:
 
       Here's an example of a request message:
       ```java
-      00 00 00 23  // size:                35
+      00 00 00 23  // message_size:        35
       00 12        // request_api_key:     18
       00 04        // request_api_version: 4
       6f 7f c6 61  // correlation_id:      1870644833
