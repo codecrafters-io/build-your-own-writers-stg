@@ -51,7 +51,7 @@ stages:
 
       In this stage, you will use [response header v0](https://kafka.apache.org/protocol.html#protocol_messages) (scroll down).
 
-      Response header v0 has a single value: [`correlation_id`](https://developer.confluent.io/patterns/event/correlation-identifier/). This value lets clients match responses to their original requests. Here's how it works:
+      Response header v0 contains a single field: [`correlation_id`](https://developer.confluent.io/patterns/event/correlation-identifier/). This value lets clients match responses to their original requests. Here's how it works:
 
       1. The client generates a correlation ID.
       2. The client sends a request that includes the correlation ID.
