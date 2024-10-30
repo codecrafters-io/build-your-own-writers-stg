@@ -39,7 +39,7 @@ stages:
 
       For this stage, you can ignore the body and just focus on `message_size` and the header. You'll learn about response bodies in a later stage.
 
-      #### `message_size`
+      #### The `message_size` field
 
       The [`message_size`](https://kafka.apache.org/protocol.html#protocol_common) field is a 32-bit signed integer. It specifies the size of the header and body.
 
