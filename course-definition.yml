@@ -23,42 +23,40 @@ marketing:
 
 stages:
   - slug: "oq4"
-    name: "Read header"
+    name: "Writers Staging"
     difficulty: very_easy
     description_md: |-
-      In this stage, you'll send a response with a correlation ID.
+      In this stage, you'll replace the hard-coded correlation ID with the actual correlation ID from the request.
 
-      ### Response message
+      ### Request message
 
-      Kafka brokers communicate with clients through the [Kafka wire protocol](https://kafka.apache.org/protocol.html). The protocol uses a request-response model, where the client sends a request message and the broker replies with a response message.
-
-      A Kafka response message has three parts:
-      1. `message_size`
+      A request message has three parts:
+      1. Message size
       2. Header
       3. Body
 
-      For this stage, you can ignore the body and just focus on `message_size` and the header. You'll learn about response bodies in a later stage.
+      To get the correlation ID, you need to find its offset. You already know that the message size is 4 bytes long. And here's what the request header looks like (in this stage, we're using [request header v2](https://kafka.apache.org/protocol.html#protocol_messages)):
 
-      #### The `message_size` field
+      | Field                 | Data type         | Description                            |
+      | --------------------- | ----------------- | -------------------------------------- |
+      | `request_api_key`     | `INT16`           | The API key for the request            |
+      | `request_api_version` | `INT16`           | The version of the API for the request |
+      | `correlation_id`      | `INT32`           | A unique identifier for the request    |
+      | `client_id`           | `NULLABLE_STRING` | The client ID for the request          |
+      | `tagged_fields`       | `TAGGED_FIELDS`   | Optional tagged fields                 |
 
-      The [`message_size`](https://kafka.apache.org/protocol.html#protocol_common) field is a 32-bit signed integer. It specifies the size of the header and body.
+      To learn more about the different data types, see [Protocol Primitive Types](https://kafka.apache.org/protocol.html#protocol_types).
 
-      For this stage, the tester will only assert that your `message_size` field is 4 bytes long—it won't check its value. You'll implement correct `message_size` values in a later stage.
+      #### Example
 
-      #### Header
-
-      Kafka has a few different header versions. The way Kafka determines which header version to use is a bit complicated and is outside the scope of this challenge. For more information, take a look at [KIP-482](https://cwiki.apache.org/confluence/display/KAFKA/KIP-482%3A+The+Kafka+Protocol+should+Support+Optional+Tagged+Fields) and this [Stack Overflow answer](https://stackoverflow.com/a/71853003).
-
-      In this stage, you will use [response header v0](https://kafka.apache.org/protocol.html#protocol_messages) (scroll down).
-
-      Response header v0 contains a single field: [`correlation_id`](https://developer.confluent.io/patterns/event/correlation-identifier/). This field lets clients match responses to their original requests. Here's how it works:
-
-      1. The client generates a correlation ID.
-      2. The client sends a request that includes the correlation ID.
-      3. The broker sends a response that includes the same correlation ID.
-      4. The client receives the response and matches the correlation ID to the original request.
-
-      The `correlation_id` field is a 32-bit signed integer. For this stage, your program must respond with a hard-coded `correlation_id` of 7.
+      Here's an example of a request message:
+      ```java
+      00 00 00 23  // size:                35
+      00 12        // request_api_key:     18
+      00 04        // request_api_version: 4
+      6f 7f c6 61  // correlation_id:      1870644833
+      ...
+      ```
 
       ### Tests
 
@@ -67,21 +65,22 @@ stages:
       $ ./your_program.sh
       ```
 
-      It'll then connect to your broker on port 9092 and send a request:
+      It'll then connect to your broker on port 9092 and send a request with a request header v2:
       ```
-      $ echo -n "Placeholder request" | nc -v localhost 9092 | hexdump -C
+      $ echo -n "00000023001200046f7fc66100096b61666b612d636c69000a6b61666b612d636c6904302e3100" | xxd -r -p | nc localhost 9092 | hexdump -C
       ```
 
-      Your broker must send a response with a correlation ID of 7:
+      Your broker must send a response with the correct correlation ID:
       ```java
-      00 00 00 00  // message_size:   0 (any value works)
-      00 00 00 07  // correlation_id: 7
+      00 00 00 00  // Message size:   0 (any value works)
+      6f 7f c6 61  // Correlation ID: 1870644833
       ```
 
       ### Notes
 
-      - For this stage, you don't need to parse the request. You'll learn about request parsing in a later stage.
-      - All integers are in [big-endian](https://developer.mozilla.org/en-US/docs/Glossary/Endianness) order.
+      - For this stage, you don't need to worry about what the request is asking for. You'll handle that in the next stage.
+      - For this stage, the tester will only assert that your message size is 4 bytes long—it won't check its value. You'll implement correct message sizes in a later stage.
+      - The request header version and response header version are unrelated to each other and do not have to match.
 
     marketing_md: |-
       In this stage, we'll do XYZ.
