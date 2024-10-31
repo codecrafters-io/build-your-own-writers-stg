@@ -57,13 +57,11 @@ stages:
 
       ### API versioning
 
-      Each API supports multiple versions, to allow for different schemas.
-
-      Requests use the header field `request_api_version` to specify the API version being requested.
-
-      Responses always use the same API version as the request. For example, a `Produce Request (Version: 3)` will always get a `Produce Response (Version: 3)` back.
-
-      Each API's version history is independent. So, different APIs with the same version are unrelated. For example, `Produce Request (Version: 10)` is not related to `Fetch Request (Version: 10)`.
+      Here's how API versioning works:
+      - Each API supports multiple versions, to allow for different schemas.
+      - Requests use the header field `request_api_version` to specify the API version being requested.
+      - Responses always use the same API version as the request. For example, a `Produce Request (Version: 3)` will always get a `Produce Response (Version: 3)` back.
+      - Each API's version history is independent. So, different APIs with the same version are unrelated. For example, `Produce Request (Version: 10)` is not related to `Fetch Request (Version: 10)`.
 
       ### The `ApiVersions` API
 
