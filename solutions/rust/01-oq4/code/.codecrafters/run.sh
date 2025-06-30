@@ -6,4 +6,6 @@
 #
 # Learn more: https://codecrafters.io/program-interface
 
+set -e # Exit on failure
+
 exec /tmp/codecrafters-build-writers-stg-rust/release/codecrafters-writers-stg "$@"
